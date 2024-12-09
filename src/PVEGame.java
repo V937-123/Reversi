@@ -13,11 +13,11 @@ public class PVEGame extends JFrame {
     public JButton TimeButton, SaveButton, ScoreButton1, ScoreButton2, chessButton;
     JButton ChessButton[][] = new JButton[8][8];
     JLabel Board = new JLabel();
-    JLabel chess=new JLabel();
-    JLabel avatar1=new JLabel();
-    JLabel avatar2=new JLabel();
-    JLabel timerLabel=new JLabel();
-    int count=0;
+    JLabel chess = new JLabel();
+    JLabel avatar1 = new JLabel();
+    JLabel avatar2 = new JLabel();
+    JLabel timerLabel = new JLabel();
+    int count = 0;
     public Timer timer;
 
     //创建左面板
@@ -68,7 +68,8 @@ public class PVEGame extends JFrame {
 
 
     }
-//创建右面板
+
+    //创建右面板
     public void updateRightPanel() {
         this.rightPanel = new JPanel();
         rightPanel.setBounds(470, 0, 1000, 1000);
@@ -90,29 +91,28 @@ public class PVEGame extends JFrame {
 
 
     //创建计时器
-    public void setTimer(){
-        timerLabel=new JLabel("0");
-        timerLabel.setBounds(0,0,250,200);
-        leftPanel.add(timerLabel);
-        timer.start();
-        timer = new Timer(1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // 更新标签显示计时器进度
-                count++;
-                timerLabel.setText("Time: " + count + " seconds");
-            }
-        });
-
-    }
-
+//    public void setTimer() {
+//        timerLabel = new JLabel("0");
+//        timerLabel.setBounds(0, 0, 250, 200);
+//        leftPanel.add(timerLabel);
+//        timer.start();
+//        timer = new Timer(1000, new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                // 更新标签显示计时器进度
+//                count++;
+//                timerLabel.setText("Time: " + count + " seconds");
+//            }
+//        });
+//
+//    }
 
 
     public static void main(String[] args) {
         PVEGame a = new PVEGame();
-        a.updateLeftPanel();
+//        a.updateLeftPanel();
         a.updateRightPanel();
-        a.setTimer();
 
 
-    }
+  }
+
 }
