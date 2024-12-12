@@ -5,8 +5,8 @@ public class JFrameTest {
         LaunchPanel a = new LaunchPanel();
 a.updateNorthPanel();
 a.updateWestPanel();
-a.HumanPanel();
 a.TextPanel();
+
 
 
 

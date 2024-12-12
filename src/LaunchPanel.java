@@ -16,21 +16,21 @@ public class LaunchPanel extends JFrame {
     public JPanel humanPanel;
     public JButton gameButton, saveButton, quitButton, computerButton, humanButton, startButton;
     JFrame frame = new JFrame("游戏主页面");
-    int currentImageIndex;
-    List<ImageIcon> imageList = new ArrayList<>();
+     int currentImageIndex;
+     List<ImageIcon> imageList = new ArrayList<>();
     JLabel Image1 = new JLabel();
     JLabel Image2 = new JLabel();
-
-
-
+    public static String storedText1 ;
+    public static String storedText2 ;
+    public static int storedAvatar;
     public void updateNorthPanel() {
-
         this.NorthPanel = new JPanel();
-        NorthPanel.setBounds(0, 0, 1500, 200);
+        NorthPanel.setBounds(0, 0, 1500, 150);
         NorthPanel.setLayout(null);
+        frame.setLayout(null);
         NorthPanel.setBackground(Color.pink);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1500, 1000);
+        frame.setBounds(0,0,1500, 1000);
         frame.add(NorthPanel);
 //创建第一行任务栏按钮
         gameButton = new JButton("Game");
@@ -39,16 +39,16 @@ public class LaunchPanel extends JFrame {
 
 
 //设置按钮位置/大小
-        gameButton.setBounds(0, 0, 500, 200);
-        saveButton.setBounds(500, 0, 500, 200);
-        quitButton.setBounds(1000, 0, 500, 200);
+        gameButton.setBounds(0, 0, 500, 150);
+        saveButton.setBounds(500, 0, 500, 150);
+        quitButton.setBounds(1000, 0, 500, 150);
 //设置字体颜色
         gameButton.setForeground(Color.pink);
         saveButton.setForeground(Color.pink);
         quitButton.setForeground(Color.pink);
 
 //设置字体样式
-        Font font = new Font("SanSerif", Font.BOLD, 100);
+        Font font = new Font("SanSerif", Font.BOLD, 60);
         gameButton.setFont(font);
         saveButton.setFont(font);
         quitButton.setFont(font);
@@ -76,7 +76,7 @@ public class LaunchPanel extends JFrame {
 
     public void updateWestPanel() {
         this.WestPanel = new JPanel();
-        WestPanel.setBounds(0, 200, 500, 800);
+        WestPanel.setBounds(0, 150, 500, 850);
         frame.setLayout(null);
         WestPanel.setLayout(null);
         WestPanel.setBackground(Color.white);
@@ -104,12 +104,11 @@ public class LaunchPanel extends JFrame {
         WestPanel.add(humanButton);
         WestPanel.add(startButton);
 
-
 //点击图片切换图片
         List<ImageIcon> imageList = new ArrayList<>();
-        imageList.add(new ImageIcon("avatar\\微信图片_20241208133417.jpg"));
-        imageList.add(new ImageIcon("avatar\\微信图片_20241208133429.jpg"));
-        imageList.add(new ImageIcon("avatar\\微信图片_20241208131200.jpg"));
+        imageList.add(new ImageIcon("touhou/Avatar/avatar/chicken1.jpg"));
+        imageList.add(new ImageIcon("touhou/Avatar/avatar/chicken2.jpg"));
+        imageList.add(new ImageIcon("touhou/Avatar/avatar/chicken3.jpg"));
         // 初始化当前图片索引
         JLabel Image = new JLabel(imageList.get(currentImageIndex));
         JLabel Image1 = new JLabel(imageList.get(currentImageIndex));
@@ -124,6 +123,7 @@ public class LaunchPanel extends JFrame {
                 // 点击时切换图片
                 currentImageIndex = (currentImageIndex + 1) % imageList.size();
                 Image.setIcon(imageList.get(currentImageIndex));
+                storedAvatar=currentImageIndex;
             }
         });
         Image1.addMouseListener(new MouseAdapter() {
@@ -140,8 +140,10 @@ public class LaunchPanel extends JFrame {
                 // 点击时切换图片
                 currentImageIndex = (currentImageIndex + 1) % imageList.size();
                 Image2.setIcon(imageList.get(currentImageIndex));
+
             }
         });
+
 
         WestPanel.add(Image);
         //添加点击事件处理逻辑
@@ -174,7 +176,7 @@ public class LaunchPanel extends JFrame {
                 PVEGame a = new PVEGame();
                 a.updateLeftPanel();
                 a.updateRightPanel();
-
+                a.arrangeChess();
             }
         });
 
@@ -185,7 +187,7 @@ public class LaunchPanel extends JFrame {
     public void TextPanel() {
         this.textPanel = new JPanel();
         textPanel.setLayout(null);
-        textPanel.setBounds(500, 200, 1000, 800);
+        textPanel.setBounds(500, 150, 1000, 850);
         textPanel.setBackground(Color.PINK);
         JButton complete = new JButton("Complete");
         complete.setBounds(400, 400, 200, 50);
@@ -216,47 +218,11 @@ public class LaunchPanel extends JFrame {
                 String text2 = textField2.getText();
 
                 // 存储文本到变量中
-                String storedText1 = text1;
-                String storedText2 = text2;
-            }
-        });
-
-    }
-
-    //更新左侧双人对战模式界面
-    public void HumanPanel() {
-
-        //点击图片切换图片
-        List<ImageIcon> imageList = new ArrayList<>();
-        imageList.add(new ImageIcon("C:\\Users\\王文彦\\OneDrive\\桌面\\小黄鸡\\微信图片_20241208133417.jpg"));
-        imageList.add(new ImageIcon("C:\\Users\\王文彦\\OneDrive\\桌面\\小黄鸡\\微信图片_20241208133429.jpg"));
-        imageList.add(new ImageIcon("C:\\Users\\王文彦\\OneDrive\\桌面\\小黄鸡\\微信图片_20241208131200.jpg"));
-        // 初始化当前图片索引
-        currentImageIndex = 0;
-        Image1.setBounds(10, 200, 250, 250);
-        Image2.setBounds(240, 200, 250, 250);
-        Image1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // 点击时切换图片
-                currentImageIndex = (currentImageIndex + 1) % imageList.size();
-                Image1.setIcon(imageList.get(currentImageIndex));
-
-
-            }
-        });
-        Image2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // 点击时切换图片
-                currentImageIndex = (currentImageIndex + 1) % imageList.size();
-                Image2.setIcon(imageList.get(currentImageIndex));
-
-
+                 storedText1 = text1;
+                 storedText2 = text2;
             }
         });
     }
-
 
 }
 
