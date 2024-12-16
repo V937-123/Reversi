@@ -130,7 +130,7 @@ public class Logic{
                             if (Board[lx][ly] == color) {//如果找到本方棋子
                                 //翻转
                                 while (--m >= 0)
-                                    Board[k[i][1] + 1 * dx[j]][k[i][2] + 1 * dy[j]] = color;
+                                    Board[k[i][1] + m * dx[j]][k[i][2] + m * dy[j]] = color;
                                 break;
                             } else if (Board[lx][ly] == 0)//找不到本方棋子
                                 break;
