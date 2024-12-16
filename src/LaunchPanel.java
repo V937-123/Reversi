@@ -23,6 +23,14 @@ public class LaunchPanel extends JFrame {
     public static String storedText1 ;
     public static String storedText2 ;
     public static int storedAvatar;
+    int mode=1;
+    JTextField textField1 = new JTextField();
+    JLabel text1 = new JLabel("User:");
+    JTextField textField2 = new JTextField();
+    JLabel text2 = new JLabel("The Maximum time:");
+    JTextField textField3 = new JTextField();
+    JLabel text3 = new JLabel("User1:");
+    JLabel text4 = new JLabel("User2:");
     public void updateNorthPanel() {
         this.NorthPanel = new JPanel();
         NorthPanel.setBounds(0, 0, 1500, 150);
@@ -36,7 +44,6 @@ public class LaunchPanel extends JFrame {
         gameButton = new JButton("Game");
         saveButton = new JButton("Save");
         quitButton = new JButton("Quit");
-
 
 //设置按钮位置/大小
         gameButton.setBounds(0, 0, 500, 150);
@@ -73,7 +80,7 @@ public class LaunchPanel extends JFrame {
             }
         });
     }
-
+//更新左面板
     public void updateWestPanel() {
         this.WestPanel = new JPanel();
         WestPanel.setBounds(0, 150, 500, 850);
@@ -144,7 +151,6 @@ public class LaunchPanel extends JFrame {
             }
         });
 
-
         WestPanel.add(Image);
         //添加点击事件处理逻辑
         computerButton.addActionListener(new ActionListener() {
@@ -156,6 +162,13 @@ public class LaunchPanel extends JFrame {
                 WestPanel.add(humanButton);
                 WestPanel.add(startButton);
                 WestPanel.repaint();
+                textPanel.remove(text3);
+                textPanel.remove(text4);
+                textPanel.remove(textField3);
+                textPanel.add(text1);
+                textPanel.repaint();
+                mode=-mode;
+
             }
         });
         humanButton.addActionListener(new ActionListener() {
@@ -168,6 +181,13 @@ public class LaunchPanel extends JFrame {
                 WestPanel.add(humanButton);
                 WestPanel.add(startButton);
                 WestPanel.repaint();
+                textPanel.add(textField3);
+                textPanel.remove(text1);
+                textPanel.add(text3);
+                textPanel.add(text4);
+                textPanel.repaint();
+                mode=-mode;
+
             }
         });
         startButton.addActionListener(new ActionListener() {
@@ -176,7 +196,7 @@ public class LaunchPanel extends JFrame {
                 PVEGame a = new PVEGame();
                 a.updateLeftPanel();
                 a.updateRightPanel();
-                a.arrangeChess();
+                PVEGame.arrangeChess();
             }
         });
 
@@ -192,20 +212,29 @@ public class LaunchPanel extends JFrame {
         JButton complete = new JButton("Complete");
         complete.setBounds(400, 400, 200, 50);
         textPanel.add(complete);
-        JTextField textField1 = new JTextField();
-        JLabel text1 = new JLabel("Account:");
-        JTextField textField2 = new JTextField();
-        JLabel text2 = new JLabel("Password:");
+//        JTextField textField1 = new JTextField();
+//        JLabel text1 = new JLabel("User:");
+//        JTextField textField2 = new JTextField();
+//        JLabel text2 = new JLabel("The Maximum time:");
+//        JTextField textField3 = new JTextField();
+//        JLabel text3 = new JLabel("User1:");
+//        JLabel text4 = new JLabel("User2:");
         textPanel.add(text1);
         textPanel.add(text2);
         text1.setBounds(250, 200, 200, 50);
-        text2.setBounds(250, 300, 200, 50);
+        text3.setBounds(250, 100, 200, 50);
+        text4.setBounds(250, 200, 200, 50);
+        text2.setBounds(150, 300, 200, 50);
         text1.setFont(new Font("SanSerif", Font.BOLD, 20));
         text2.setFont(new Font("SanSerif", Font.BOLD, 20));
+        text3.setFont(new Font("SanSerif", Font.BOLD, 20));
+        text4.setFont(new Font("SanSerif", Font.BOLD, 20));
         textField1.setBounds(350, 200, 300, 50);
         textField1.setFont(new Font("SanSerif", Font.BOLD, 20));
         textField2.setBounds(350, 300, 300, 50);
         textField2.setFont(new Font("SanSerif", Font.BOLD, 20));
+        textField3.setBounds(350, 100, 300, 50);
+        textField3.setFont(new Font("SanSerif", Font.BOLD, 20));
         textPanel.add(textField1);
         textPanel.add(textField2);
         frame.add(textPanel);
@@ -216,7 +245,6 @@ public class LaunchPanel extends JFrame {
                 // 从 JTextField 中获取文本
                 String text1 = textField1.getText();
                 String text2 = textField2.getText();
-
                 // 存储文本到变量中
                  storedText1 = text1;
                  storedText2 = text2;

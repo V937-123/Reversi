@@ -10,8 +10,8 @@ public class PVEGame extends JFrame {
     JFrame frame = new JFrame("PVEGame");
     public JPanel leftPanel;
     public JPanel rightPanel;
-    public JButton TimeButton, SaveButton, ScoreButton1, ScoreButton2, StepButton;
-     JButton ChessButton[][] = new JButton[8][8];
+    public JButton TimeButton, SaveButton, ScoreButton1, ScoreButton2, StepButton,RetractButton;
+     static JButton[][] ChessButton = new JButton[8][8];
     JLabel Board = new JLabel();
     JLabel chess = new JLabel();
     JLabel avatar1 = new JLabel();
@@ -21,10 +21,14 @@ public class PVEGame extends JFrame {
     JLabel score2=new JLabel();
     JLabel chessPattern[][]=new JLabel[8][8];
     int count = 0;
+    static int step=0;
     public Timer timer;
     java.util.List<ImageIcon> chessImageList = new ArrayList<>();
     int currentImageIndex;
-    int chessBoard[][]=new int[][]{
+    static int X;
+    static int Y;
+    int color = 1;
+    static int chessBoard[][]=new int[][]{
             {0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0},
@@ -53,13 +57,15 @@ public class PVEGame extends JFrame {
         ScoreButton1 = new JButton();
         ScoreButton2 = new JButton();
         StepButton=new JButton();
+        RetractButton=new JButton("Retract");
 
         // 设置按钮大小和位置
         TimeButton.setBounds(0, 0, 250, 200);
-        SaveButton.setBounds(300, 400, 200, 200);
+        SaveButton.setBounds(300, 400, 200, 150);
         ScoreButton1.setBounds(100, 200, 400, 100);
         ScoreButton2.setBounds(100, 300, 400, 100);
-        StepButton.setBounds(300,600,200,300);
+        StepButton.setBounds(300,550,200,150);
+        RetractButton.setBounds(300,700,200,150);
 
         //设置按钮颜色
         TimeButton.setBackground(Color.pink);
@@ -67,6 +73,7 @@ public class PVEGame extends JFrame {
         ScoreButton1.setBackground(Color.pink);
         ScoreButton2.setBackground(Color.pink);
         StepButton.setBackground(Color.pink);
+        RetractButton.setBackground(Color.pink);
 
         //设置字体颜色
         TimeButton.setForeground(Color.WHITE);
@@ -74,19 +81,22 @@ public class PVEGame extends JFrame {
         ScoreButton1.setForeground(Color.WHITE);
         ScoreButton2.setForeground(Color.WHITE);
         StepButton.setForeground(Color.WHITE);
+        RetractButton.setForeground(Color.WHITE);
         //设置字体样式
-        Font font = new Font("SanSerif", Font.BOLD, 50);
+        Font font = new Font("SanSerif", Font.BOLD, 40);
         TimeButton.setFont(font);
         SaveButton.setFont(font);
         ScoreButton1.setFont(font);
         ScoreButton2.setFont(font);
         StepButton.setFont(font);
+        RetractButton.setFont(font);
         //将按钮添加到面板中
         leftPanel.add(TimeButton);
         leftPanel.add(SaveButton);
         leftPanel.add(ScoreButton1);
         leftPanel.add(ScoreButton2);
         leftPanel.add(StepButton);
+        leftPanel.add(RetractButton);
         //添加计时器
         timerLabel = new JLabel("0");
         timerLabel.setBounds(0, 0, 250, 200);
@@ -115,7 +125,11 @@ public class PVEGame extends JFrame {
 
 //添加分数
         score1=new JLabel(LaunchPanel.storedText1+":");
+        score1.setFont(new Font("SanSerif", Font.BOLD, 20));
+        score1.setForeground(Color.white);
         score2=new JLabel("Computer:");
+        score2.setForeground(Color.white);
+        score2.setFont(new Font("SanSerif", Font.BOLD, 20));
         score1.setBounds(100,200,400,100);
         score2.setBounds(100,300,400,100);
         ScoreButton1.add(score1);
@@ -138,8 +152,8 @@ public class PVEGame extends JFrame {
         chess=new JLabel(chessImageList.get(currentImageIndex));
         chess.setBounds(280,0,200,200);
         leftPanel.add(chess);
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for ( int i = 0; i < 8; i++) {
+            for ( int j = 0; j < 8; j++) {
                 ChessButton[i][j] = new JButton();
                 ChessButton[i][j].setContentAreaFilled(false); // 设置内容区域不填充
                 ChessButton[i][j].setBorderPainted(false); // 设置无边框
@@ -151,25 +165,41 @@ public class PVEGame extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         currentImageIndex = (currentImageIndex + 1) % chessImageList.size();
                         chess.setIcon(chessImageList.get(currentImageIndex));
+                       java.awt.Point mousePosition=java.awt.MouseInfo.getPointerInfo().getLocation();
+//                        System.out.println(mousePosition.x+" "+mousePosition.y);
+                        Y=(mousePosition.x-584)/97;
+                        X=(mousePosition.y-65)/97;
+                        System.out.println("can flip: " + Logic.canFlip(PVEGame.chessBoard, PVEGame.X, PVEGame.Y, color));
+                        System.out.println(PVEGame.X+" "+ PVEGame.Y);
+                        System.out.println(color);
+//            Logic.print(Logic.canPlace(PVEGame.chessBoard, color));
+                        Logic.Operate(PVEGame.chessBoard, PVEGame.X, PVEGame.Y, color);
+                        color=-color;
+                        arrangeChess();
+                        save.save();
+                        save.CreateFile();
+                        save.ArrayToFile();
+                        Logic.print(PVEGame.chessBoard);
+                        step++;
+
                     }
                 });
                 rightPanel.add(ChessButton[i][j],0);
+
             }
         }
         frame.setVisible(true);
 
     }
 
-    public void arrangeChess(){
+    public static void arrangeChess(){
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                System.out.println(chessBoard[i][j]);
+//                System.out.println(chessBoard[i][j]);
                 if (chessBoard[i][j]==1){
-                     ChessButton[i][j].setIcon(new ImageIcon("touhou/smallblack.png"));
+                     ChessButton[j][i].setIcon(new ImageIcon("touhou/smallblack.png"));
                 } else if (chessBoard[i][j]==-1) {
-                     ChessButton[i][j].setIcon(new ImageIcon("touhou/smallWhite.png"));
-
-
+                     ChessButton[j][i].setIcon(new ImageIcon("touhou/smallWhite.png"));
                 }
             }
         }

@@ -7,13 +7,9 @@ public class Player {
     //胜场数
     int winCount = 0;
     //得分
-    int scorecount = 0;
-
-
+    int scoreCount = 0;
     //计算胜率
     public double winRate(){
         return gameCount == 0 ? 0 :(double) winCount / gameCount;
     }
-
-
 }
